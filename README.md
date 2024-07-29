@@ -27,5 +27,7 @@ cloudmusic.exe=3
 
 # 引用
 源仓库：https://github.com/najoast/EscHotKey
+
 1.修改配置路径的bug
+
 2.限制多个实例运行
