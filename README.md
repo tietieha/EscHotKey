@@ -24,3 +24,8 @@ cloudmusic.exe=3
 # 使用
 直接双击、最小化。
 建议把本程序的快捷方式拖到`C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup`目录，这样就可以开机自启动了。
+
+# 引用
+源仓库：https://github.com/najoast/EscHotKey
+1.修改配置路径的bug
+2.限制多个实例运行
