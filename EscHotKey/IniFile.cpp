@@ -75,7 +75,7 @@ bool CIniFile::ReadFile()
 			unsigned char szCmp[]={0xEF,0xBB,0xBF};
 			if (memcmp(buf,szCmp,3)==0)
 			{
-				strcpy(buf,buf + 3);//UTF-8 ”–BOM∏Ò Ω
+				strcpy(buf,buf + 3);//UTF-8 ÊúâBOMÊ†ºÂºè
 			}
 
 			bReadUtf8=false;
@@ -124,7 +124,7 @@ bool CIniFile::ReadFile()
                 readinfo = readinfo.substr( 1, pos-1 );
                 keyname = readinfo;
                 TrimLeftRight(keyname);
-				//÷ß≥÷ø’Key£¨2013-10-16 by ZhouYan
+				//ÊîØÊåÅÁ©∫KeyÔºå2013-10-16 by ZhouYan
 				AddKey(keyname.c_str());
             }
             else if ( !readinfo.empty() )
@@ -183,7 +183,7 @@ void CIniFile::WriteFile()
     ofstream inifile(m_strPath.c_str());
     for (int keynum = 0; keynum <(int) m_sections.size(); keynum++)
     {
-        //if (!m_sections[keynum].vv.empty()) //÷ß≥÷ø’Key£¨2013-10-16 by ZhouYan
+        //if (!m_sections[keynum].vv.empty()) //ÊîØÊåÅÁ©∫KeyÔºå2013-10-16 by ZhouYan
         {
             inifile << '[' << m_sections[keynum].name.c_str() << ']' << endl;
 			int iSize=(int)m_sections[keynum].vv.size();
@@ -457,7 +457,7 @@ bool CIniFile::SetValue(const char* keyname, const char* valuename, const char* 
             s.vv.push_back( v );
         }
     }
-    else// Ù”⁄–¬µƒ[KEY]¿Ô
+    else//Â±û‰∫éÊñ∞ÁöÑ[KEY]Èáå
     {
         if (!create)
         {
@@ -542,7 +542,7 @@ int CIniFile::FindKey(const char* keyname)
 #if 0
 int CIniFile::FindValue(int keynum, const char* valuename)
 {
-    assert(false);//œ»ø¥ø¥ ≤√¥µÿ∑Ω‘⁄µ˜”√
+    assert(false);//ÂÖàÁúãÁúã‰ªÄ‰πàÂú∞ÊñπÂú®Ë∞ÉÁî®
     return -1;
     /*
     if (keynum == -1)

@@ -1,6 +1,6 @@
 #ifndef  AFX_INIFILE2_H__D6BE0D97_13A8_11D4_A5D2_002078B03530__INCLUDED_
 #define AFX_INIFILE2_H__D6BE0D97_13A8_11D4_A5D2_002078B03530__INCLUDED_
-//¶ÁÈ¡INI,Ö§³ÖANSIºÍUTF8¸ñÊ½±àÂë(Èç¹ûÎÄ¼ş±àÂëÊÇUTF8,ÔòÈ¡µÃµÄÖµÊÇUnicodeÖµ)
+//è¯»å–INI,æ”¯æŒANSIå’ŒUTF8æ ¼å¼ç¼–ç (å¦‚æœæ–‡ä»¶ç¼–ç æ˜¯UTF8,åˆ™å–å¾—çš„å€¼æ˜¯Unicodeå€¼)
 #pragma warning(disable:4786)
 #include <string>
 #include <vector>
@@ -8,15 +8,15 @@
 using namespace std;
 
 //////////////////////////////////////////////////////////////////////
-// Ê¹ÓÃËµÃ÷£º
-// ÓÉ [KEY] ĞĞºÍÄÚÈİĞĞ(NAME=TEXT)×é³É¡£[KEY]ĞĞµÄ([)±ØĞë¶¥ĞĞ
-// Ö§³Ö /* ºÍ */ µÄ×¢ÊÍĞĞ£¬´øÕâÁ½¸ö·ûºÅµÄÕûĞĞ¶¼ÊÇ×¢ÊÍ
-// Ã¿Ò»ĞĞµÄĞĞÄ©¿ÉÒÔ´ø // ×¢ÊÍ·û
-// KEY¡¢NAMEºÍTEXT£¬Ã¿¸ö¶¼»á±»¼ôµôÊ×Î²¿Õ¸ñ
-// ÀıÈç:iniÎÄ¼ş:
+// ä½¿ç”¨è¯´æ˜ï¼š
+// ç”± [KEY] è¡Œå’Œå†…å®¹è¡Œ(NAME=TEXT)ç»„æˆã€‚[KEY]è¡Œçš„([)å¿…é¡»é¡¶è¡Œ
+// æ”¯æŒ /* å’Œ */ çš„æ³¨é‡Šè¡Œï¼Œå¸¦è¿™ä¸¤ä¸ªç¬¦å·çš„æ•´è¡Œéƒ½æ˜¯æ³¨é‡Š
+// æ¯ä¸€è¡Œçš„è¡Œæœ«å¯ä»¥å¸¦ // æ³¨é‡Šç¬¦
+// KEYã€NAMEå’ŒTEXTï¼Œæ¯ä¸ªéƒ½ä¼šè¢«å‰ªæ‰é¦–å°¾ç©ºæ ¼
+// ä¾‹å¦‚:iniæ–‡ä»¶:
 // [combobox]
 // Ani=public_comboxbg
-// ÆäÖĞcomboboxÊÇKEY,AniÊÇNAME,public_comboxbgÊÇTEXT
+// å…¶ä¸­comboboxæ˜¯KEY,Aniæ˜¯NAME,public_comboxbgæ˜¯TEXT
 
 // #define _USE_STRING2ID
 
@@ -32,17 +32,17 @@ public:
 	void SetPath(const char* newpath);
 	const char* GetPath();
 
-	//½âÎöINI
+	//è§£æINI
 	virtual bool ReadFile();
 
-	//½âÎöINI(µ÷ÓÃReadFile())
+	//è§£æINI(è°ƒç”¨ReadFile())
 	virtual  bool ReadFile(const char* newpath);
 
-	//Èç¹ûÃ»ÓĞÕÒµ½£¬·µ»Ø-1
+	//å¦‚æœæ²¡æœ‰æ‰¾åˆ°ï¼Œè¿”å›-1
 	int FindKey(const char* keyname);
 
-	//»ñÈ¡Ä³Ò»ĞòºÅµÄ[KEY]Ãû×Ö
-	const char* GetKeyName(int nKeyIndex/*[KEY]µÄĞòºÅ*/);
+	//è·å–æŸä¸€åºå·çš„[KEY]åå­—
+	const char* GetKeyName(int nKeyIndex/*[KEY]çš„åºå·*/);
 
 	const char* GetValueName(int nKeyIndex, int nValueIndex);
 	const char* GetValue(int  nKeyIndex, const char* sValueName);
@@ -52,18 +52,18 @@ public:
 	bool CopySession(CIniFile& refValue, const char* keyname);
 	//	const char* GetValueName(int nKeyIndex,int nValueIndex);
 
-	//±£´æiniÎÄ¼ş
+	//ä¿å­˜iniæ–‡ä»¶
 	void WriteFile(); 
 
 	void Reset();
 
-	//»ñÈ¡[KEY]µÄÊıÁ¿(m_sectionsµÄ´óĞ¡)
+	//è·å–[KEY]çš„æ•°é‡(m_sectionsçš„å¤§å°)
 	int GetKeyAmount();						
 
-	// ÎŞ(=)µÄÕûĞĞÊıÁ¿£¬-1±íÊ¾ÎŞKEYµÄ´íÎó
+	// æ— (=)çš„æ•´è¡Œæ•°é‡ï¼Œ-1è¡¨ç¤ºæ— KEYçš„é”™è¯¯
 	int GetLineAmount(const char* keyname);		
 
-	// ÓĞ(=)µÄÕûĞĞÊıÁ¿£¬-1±íÊ¾ÎŞKEYµÄ´íÎó
+	// æœ‰(=)çš„æ•´è¡Œæ•°é‡ï¼Œ-1è¡¨ç¤ºæ— KEYçš„é”™è¯¯
 	int GetValueAmount(const char* keyname);	
 
 	const char* GetValue(const char* keyname, const char* valuename); 
@@ -83,7 +83,7 @@ public:
 	bool DelKey(const char* key);
 	bool DelKey(int idx);
 
-	//ÉèÖÃ[]
+	//è®¾ç½®[]
 	bool SetValueLine(const char* key, const char* valueline, bool create = 1);
 
 	//	bool DeleteValue(const char* keyname, const char* valuename);
@@ -96,27 +96,27 @@ protected:
 
 	struct Value 
 	{
-		std::string name;//×ó±ßµÄÖµ,NAME
+		std::string name;//å·¦è¾¹çš„å€¼,NAME
 		std::string value;
-		std::string line;//Ò»ĞĞ
+		std::string line;//ä¸€è¡Œ
 	};
 
 	typedef std::vector< Value >		ValueVector;
-	struct Section //ÄÚÈİ NAMEºÍTEXT
+	struct Section //å†…å®¹ NAMEå’ŒTEXT
 	{
 		std::string name;
-		ValueVector vv;//ËùÓĞĞĞµÄÊı¾İ
+		ValueVector vv;//æ‰€æœ‰è¡Œçš„æ•°æ®
 	};
 
 	typedef std::vector< Section >		SectionVector;
-	SectionVector m_sections;//±£´æËùÓĞµÄ[KEY]µÄÏòÁ¿(Ã¿¸ö[KEY]Àï±£´æÄÚÈİÏòÁ¿ NAMEºÍTEXT)
+	SectionVector m_sections;//ä¿å­˜æ‰€æœ‰çš„[KEY]çš„å‘é‡(æ¯ä¸ª[KEY]é‡Œä¿å­˜å†…å®¹å‘é‡ NAMEå’ŒTEXT)
 
 	typedef std::map< std::string, int > Section2Index;
-	Section2Index m_section2Index;//±£´æKEYµÄmap
+	Section2Index m_section2Index;//ä¿å­˜KEYçš„map
 
 	ValueVector::iterator FindValueVector(ValueVector& vv, const char* valuename);
 };
 
-//È¥³ı×óÓÒµÄ\n\r\t ×Ö·û´®
+//å»é™¤å·¦å³çš„\n\r\t å­—ç¬¦ä¸²
 extern void TrimLeftRight(std::string& s);
 #endif // !defined(AFX_INIFILE2_H__D6BE0D97_13A8_11D4_A5D2_002078B03530__INCLUDED_)

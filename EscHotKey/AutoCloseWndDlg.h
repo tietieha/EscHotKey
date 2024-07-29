@@ -1,4 +1,4 @@
-// AutoCloseWndDlg.h : Í·ÎÄ¼ş
+// AutoCloseWndDlg.h : å¤´æ–‡ä»¶
 //
 
 #pragma once
@@ -6,28 +6,28 @@
 
 
 
-// CAutoCloseWndDlg ¶Ô»°¿ò
+// CAutoCloseWndDlg å¯¹è¯æ¡†
 class CAutoCloseWndDlg : public CDialog
 {
-// ¹¹Ôì
+// æ„é€ 
 public:
-	CAutoCloseWndDlg(CWnd* pParent = NULL);	// ±ê×¼¹¹Ôìº¯Êı
+	CAutoCloseWndDlg(CWnd* pParent = NULL);	// æ ‡å‡†æ„é€ å‡½æ•°
 
-// ¶Ô»°¿òÊı¾İ
+// å¯¹è¯æ¡†æ•°æ®
 	enum { IDD = IDD_AUTOCLOSEWND_DIALOG };
 
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV Ö§³Ö
+	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV æ”¯æŒ
 
 
-// ÊµÏÖ
+// å®ç°
 protected:
 	HICON m_hIcon;
 	NOTIFYICONDATA  m_nid;
 
 	bool m_bPause;
 
-	// Éú³ÉµÄÏûÏ¢Ó³Éäº¯Êı
+	// ç”Ÿæˆçš„æ¶ˆæ¯æ˜ å°„å‡½æ•°
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
 	afx_msg void OnPaint();
