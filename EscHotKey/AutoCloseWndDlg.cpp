@@ -1,4 +1,4 @@
-// AutoCloseWndDlg.cpp : ÊµÏÖÎÄ¼ş
+// AutoCloseWndDlg.cpp : å®ç°æ–‡ä»¶
 //
 
 #include "stdafx.h"
@@ -16,20 +16,20 @@
 const char* APP_NAME = "EscHotkey";
 
 CIniFile g_iniConfig;
-// ÓÃÓÚÓ¦ÓÃ³ÌĞò¡°¹ØÓÚ¡±²Ëµ¥ÏîµÄ CAboutDlg ¶Ô»°¿ò
+// ç”¨äºåº”ç”¨ç¨‹åºâ€œå…³äºâ€èœå•é¡¹çš„ CAboutDlg å¯¹è¯æ¡†
 
 class CAboutDlg : public CDialog
 {
 public:
 	CAboutDlg();
 
-// ¶Ô»°¿òÊı¾İ
+// å¯¹è¯æ¡†æ•°æ®
 	enum { IDD = IDD_ABOUTBOX };
 
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Ö§³Ö
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV æ”¯æŒ
 
-// ÊµÏÖ
+// å®ç°
 protected:
 	DECLARE_MESSAGE_MAP()
 };
@@ -47,7 +47,7 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
 END_MESSAGE_MAP()
 
 
-// CAutoCloseWndDlg ¶Ô»°¿ò
+// CAutoCloseWndDlg å¯¹è¯æ¡†
 
 #define WM_SYSTEMTRAY WM_USER+1
 
@@ -88,10 +88,10 @@ enum
 	ESC_EXIT_PROCESS,
 };
 
-HHOOK       g_hHook = NULL;         //¹³×Ó¾ä±ú
+HHOOK       g_hHook = NULL;         //é’©å­å¥æŸ„
 LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam,LPARAM lParam)  
 {   
-	//ÅĞ¶ÏÊÇ·ñÊÇÓĞĞ§°´¼ü  
+	//åˆ¤æ–­æ˜¯å¦æ˜¯æœ‰æ•ˆæŒ‰é”®  
 	if (nCode >= HC_ACTION && wParam==WM_KEYDOWN)   
 	{   
 		//BOOL bEsc = GetAsyncKeyState(VK_ESCAPE)>>((sizeof(SHORT) *8)-1);     
@@ -145,38 +145,62 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam,LPARAM lParam)
 		}
 		//return TRUE;    
 	}   
-	//´«¸øÏµÍ³ÖĞµÄÏÂÒ»¸ö¹³×Ó   
+	//ä¼ ç»™ç³»ç»Ÿä¸­çš„ä¸‹ä¸€ä¸ªé’©å­   
 	return CallNextHookEx(g_hHook, nCode, wParam, lParam);   
 }
 
-// CAutoCloseWndDlg ÏûÏ¢´¦Àí³ÌĞò
+// CAutoCloseWndDlg æ¶ˆæ¯å¤„ç†ç¨‹åº
 
 BOOL CAutoCloseWndDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	//µÃµ½ÅäÖÃÎÄ¼şµÄÍêÕûÂ·¾¶
-	// ÕâÀïÓĞ¸ö¿Ó£ºÈç¹ûÊÇ¿ª»úÆô¶¯£¬¹¤×÷Ä¿Â¼ÊÇC:\Windows\SysWow64,ËùÒÔ»áÕÒ²»µ½ÅäÖÃÎÄ¼ş!
-	// ×î³õÏëÊ¹ÓÃ×¢²á±íÀï´æµÄÖµ£¬ºóÀ´·¢ÏÖÖ±½ÓÈ¡ÃüÁîĞĞµÚÒ»¸ö²ÎÊı¾ÍĞĞÁË£¬¸ü·½±ã¡£
+	//å¾—åˆ°é…ç½®æ–‡ä»¶çš„å®Œæ•´è·¯å¾„
+	// è¿™é‡Œæœ‰ä¸ªå‘ï¼šå¦‚æœæ˜¯å¼€æœºå¯åŠ¨ï¼Œå·¥ä½œç›®å½•æ˜¯C:\Windows\SysWow64,æ‰€ä»¥ä¼šæ‰¾ä¸åˆ°é…ç½®æ–‡ä»¶!
+	// æœ€åˆæƒ³ä½¿ç”¨æ³¨å†Œè¡¨é‡Œå­˜çš„å€¼ï¼Œåæ¥å‘ç°ç›´æ¥å–å‘½ä»¤è¡Œç¬¬ä¸€ä¸ªå‚æ•°å°±è¡Œäº†ï¼Œæ›´æ–¹ä¾¿ã€‚
 
 	LPSTR pszCmdLine = ::GetCommandLine();
-// 	AfxMessageBox(pszCmdLine);
+ 	//AfxMessageBox(pszCmdLine);
+
 	if (strlen(pszCmdLine) < 2)
 		exit(0);
-	pszCmdLine++;//È¥µôµÚÒ»¸öÒıºÅ
-	char* p = strstr(pszCmdLine, APP_NAME);
-	if (p != NULL)
-		p[0] = '\0';
+
+	// å¦‚æœç¬¬ä¸€ä¸ªå­—ç¬¦æ˜¯å¼•å·ï¼Œè·³è¿‡å®ƒ
+	if (pszCmdLine[0] == '"')
+		pszCmdLine++;
+
+	// æŸ¥æ‰¾ ".exe" çš„ä½ç½®
+	char* exePos = strstr(pszCmdLine, ".exe");
+	if (exePos != NULL) {
+		exePos += 4; // è·³è¿‡ ".exe"
+	}
+	else {
+		// å¦‚æœæ‰¾ä¸åˆ° ".exe"ï¼Œè¯´æ˜å‘½ä»¤è¡Œæ ¼å¼ä¸æ­£ç¡®
+		exit(1);
+	}
+	// ç¡®ä¿æˆ‘ä»¬æ‰¾åˆ°äº†æ­£ç¡®çš„ ".exe" ä½ç½®ï¼Œå¹¶å°†å…¶åçš„å†…å®¹æˆªæ–­
+	*exePos = '\0';
+
+	// æŸ¥æ‰¾æœ€åä¸€ä¸ªåæ–œæ çš„ä½ç½®ï¼Œç¡®ä¿æˆ‘ä»¬å¾—åˆ°ç›®å½•
+	char* lastBackslash = strrchr(pszCmdLine, '\\');
+	if (lastBackslash != NULL) {
+		// ä»¥æœ€åä¸€ä¸ªåæ–œæ ä½œä¸ºæˆªæ–­ç‚¹
+		*lastBackslash = '\0';
+	}
+	else {
+		// å¦‚æœæ‰¾ä¸åˆ°åæ–œæ ï¼Œè¯´æ˜å‘½ä»¤è¡Œæ ¼å¼ä¸æ­£ç¡®
+		exit(1);
+	}
 
 	CString strConfig;
-	strConfig.Format("%sconfig.ini", pszCmdLine);
-
+	strConfig.Format("%s\\config.ini", pszCmdLine);
+	//AfxMessageBox(strConfig);
 // 	if (strstr(pszCmdLine, "regrun") != NULL)
 // 	{
-// 		//ÕÒµ½ÏµÍ³µÄÆô¶¯Ïî
+// 		//æ‰¾åˆ°ç³»ç»Ÿçš„å¯åŠ¨é¡¹
 // 		HKEY hKey;
 // 		LPCTSTR lpRun = _T("Software\\Microsoft\\Windows\\CurrentVersion\\Run"); 
-// 		//´ò¿ªÆô¶¯ÏîKey 
+// 		//æ‰“å¼€å¯åŠ¨é¡¹Key 
 // 		long lRet = RegOpenKeyEx(HKEY_LOCAL_MACHINE, lpRun, 0, KEY_WRITE, &hKey);
 // 		if(lRet== ERROR_SUCCESS)
 // 		{
@@ -200,9 +224,9 @@ BOOL CAutoCloseWndDlg::OnInitDialog()
 		exit(0);
 	}
 
-	// ½«¡°¹ØÓÚ...¡±²Ëµ¥ÏîÌí¼Óµ½ÏµÍ³²Ëµ¥ÖĞ¡£
+	// å°†â€œå…³äº...â€èœå•é¡¹æ·»åŠ åˆ°ç³»ç»Ÿèœå•ä¸­ã€‚
 
-	// IDM_ABOUTBOX ±ØĞëÔÚÏµÍ³ÃüÁî·¶Î§ÄÚ¡£
+	// IDM_ABOUTBOX å¿…é¡»åœ¨ç³»ç»Ÿå‘½ä»¤èŒƒå›´å†…ã€‚
 	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
 	ASSERT(IDM_ABOUTBOX < 0xF000);
 
@@ -218,32 +242,32 @@ BOOL CAutoCloseWndDlg::OnInitDialog()
 		}
 	}
 
-	// ÉèÖÃ´Ë¶Ô»°¿òµÄÍ¼±ê¡£µ±Ó¦ÓÃ³ÌĞòÖ÷´°¿Ú²»ÊÇ¶Ô»°¿òÊ±£¬¿ò¼Ü½«×Ô¶¯
-	//  Ö´ĞĞ´Ë²Ù×÷
-	SetIcon(m_hIcon, TRUE);			// ÉèÖÃ´óÍ¼±ê
-	SetIcon(m_hIcon, FALSE);		// ÉèÖÃĞ¡Í¼±ê
+	// è®¾ç½®æ­¤å¯¹è¯æ¡†çš„å›¾æ ‡ã€‚å½“åº”ç”¨ç¨‹åºä¸»çª—å£ä¸æ˜¯å¯¹è¯æ¡†æ—¶ï¼Œæ¡†æ¶å°†è‡ªåŠ¨
+	//  æ‰§è¡Œæ­¤æ“ä½œ
+	SetIcon(m_hIcon, TRUE);			// è®¾ç½®å¤§å›¾æ ‡
+	SetIcon(m_hIcon, FALSE);		// è®¾ç½®å°å›¾æ ‡
 
-	// TODO: ÔÚ´ËÌí¼Ó¶îÍâµÄ³õÊ¼»¯´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ é¢å¤–çš„åˆå§‹åŒ–ä»£ç 
 	m_nid.cbSize = sizeof(NOTIFYICONDATA);
 	m_nid.hWnd = m_hWnd;
-	m_nid.uID = IDR_MAINFRAME; //Í¼±êµÄID
+	m_nid.uID = IDR_MAINFRAME; //å›¾æ ‡çš„ID
 	m_nid.uFlags = NIF_MESSAGE|NIF_ICON|NIF_TIP;
-	m_nid.uCallbackMessage = WM_SYSTEMTRAY; //Í¼±ê¶ÔÓ¦µÄÏûÏ¢µÄID
+	m_nid.uCallbackMessage = WM_SYSTEMTRAY; //å›¾æ ‡å¯¹åº”çš„æ¶ˆæ¯çš„ID
 	m_nid.hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-	//wcscpy_s(m_nid.szTip,10, L"×Ô¶¯¹Ø±Õ¶ÏÑÔ");
+	//wcscpy_s(m_nid.szTip,10, L"è‡ªåŠ¨å…³é—­æ–­è¨€");
 	strcpy_s(m_nid.szTip, sizeof(m_nid.szTip), APP_NAME);
 	::Shell_NotifyIcon(NIM_ADD,&m_nid);
 
 	//SetDlgItemText(IDC_BUTTON1, m_bPause ? "Continue" : "Pause");
 	//ShowWindow(SW_SHOWMINIMIZED);
 
-	// Ìí¼Ó¼üÅÌ¹³×Ó
+	// æ·»åŠ é”®ç›˜é’©å­
 	if (g_hHook == NULL)
 	{
 		g_hHook = SetWindowsHookEx(WH_KEYBOARD_LL, LowLevelKeyboardProc,  AfxGetInstanceHandle(), NULL);
 	}
 
-	// ³õÊ¼»¯¿Ø¼ş×´Ì¬
+	// åˆå§‹åŒ–æ§ä»¶çŠ¶æ€
 	m_chkAutoRun.SetCheck(g_iniConfig.GetValueI("UserInfo", "AutoRun"));
 	m_chkRunMin.SetCheck(g_iniConfig.GetValueI("UserInfo", "RunMin"));
 
@@ -252,11 +276,11 @@ BOOL CAutoCloseWndDlg::OnInitDialog()
 		//this->ShowWindow(SW_HIDE);
 		::PostMessage(m_hWnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
 		
-		//ÍĞÅÌ·¢ËÍÌáĞÑÏûÏ¢
+		//æ‰˜ç›˜å‘é€æé†’æ¶ˆæ¯
 
 	}
 
-	return TRUE;  // ³ı·Ç½«½¹µãÉèÖÃµ½¿Ø¼ş£¬·ñÔò·µ»Ø TRUE
+	return TRUE;  // é™¤éå°†ç„¦ç‚¹è®¾ç½®åˆ°æ§ä»¶ï¼Œå¦åˆ™è¿”å› TRUE
 }
 
 void CAutoCloseWndDlg::OnSysCommand(UINT nID, LPARAM lParam)
@@ -272,19 +296,19 @@ void CAutoCloseWndDlg::OnSysCommand(UINT nID, LPARAM lParam)
 	}
 }
 
-// Èç¹ûÏò¶Ô»°¿òÌí¼Ó×îĞ¡»¯°´Å¥£¬ÔòĞèÒªÏÂÃæµÄ´úÂë
-//  À´»æÖÆ¸ÃÍ¼±ê¡£¶ÔÓÚÊ¹ÓÃÎÄµµ/ÊÓÍ¼Ä£ĞÍµÄ MFC Ó¦ÓÃ³ÌĞò£¬
-//  Õâ½«ÓÉ¿ò¼Ü×Ô¶¯Íê³É¡£
+// å¦‚æœå‘å¯¹è¯æ¡†æ·»åŠ æœ€å°åŒ–æŒ‰é’®ï¼Œåˆ™éœ€è¦ä¸‹é¢çš„ä»£ç 
+//  æ¥ç»˜åˆ¶è¯¥å›¾æ ‡ã€‚å¯¹äºä½¿ç”¨æ–‡æ¡£/è§†å›¾æ¨¡å‹çš„ MFC åº”ç”¨ç¨‹åºï¼Œ
+//  è¿™å°†ç”±æ¡†æ¶è‡ªåŠ¨å®Œæˆã€‚
 
 void CAutoCloseWndDlg::OnPaint()
 {
 	if (IsIconic())
 	{
-		CPaintDC dc(this); // ÓÃÓÚ»æÖÆµÄÉè±¸ÉÏÏÂÎÄ
+		CPaintDC dc(this); // ç”¨äºç»˜åˆ¶çš„è®¾å¤‡ä¸Šä¸‹æ–‡
 
 		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
 
-		// Ê¹Í¼±êÔÚ¹¤×÷Çø¾ØĞÎÖĞ¾ÓÖĞ
+		// ä½¿å›¾æ ‡åœ¨å·¥ä½œåŒºçŸ©å½¢ä¸­å±…ä¸­
 		int cxIcon = GetSystemMetrics(SM_CXICON);
 		int cyIcon = GetSystemMetrics(SM_CYICON);
 		CRect rect;
@@ -292,7 +316,7 @@ void CAutoCloseWndDlg::OnPaint()
 		int x = (rect.Width() - cxIcon + 1) / 2;
 		int y = (rect.Height() - cyIcon + 1) / 2;
 
-		// »æÖÆÍ¼±ê
+		// ç»˜åˆ¶å›¾æ ‡
 		dc.DrawIcon(x, y, m_hIcon);
 	}
 	else
@@ -301,8 +325,8 @@ void CAutoCloseWndDlg::OnPaint()
 	}
 }
 
-//µ±ÓÃ»§ÍÏ¶¯×îĞ¡»¯´°¿ÚÊ±ÏµÍ³µ÷ÓÃ´Ëº¯ÊıÈ¡µÃ¹â±ê
-//ÏÔÊ¾¡£
+//å½“ç”¨æˆ·æ‹–åŠ¨æœ€å°åŒ–çª—å£æ—¶ç³»ç»Ÿè°ƒç”¨æ­¤å‡½æ•°å–å¾—å…‰æ ‡
+//æ˜¾ç¤ºã€‚
 HCURSOR CAutoCloseWndDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
@@ -311,7 +335,7 @@ HCURSOR CAutoCloseWndDlg::OnQueryDragIcon()
 
 LRESULT CAutoCloseWndDlg::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
-	// TODO: ÔÚ´ËÌí¼Ó×¨ÓÃ´úÂëºÍ/»òµ÷ÓÃ»ùÀà
+	// TODO: åœ¨æ­¤æ·»åŠ ä¸“ç”¨ä»£ç å’Œ/æˆ–è°ƒç”¨åŸºç±»
 	switch (message)
 	{
 	case WM_SYSCOMMAND:
@@ -335,7 +359,7 @@ LRESULT CAutoCloseWndDlg::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 
 BOOL CAutoCloseWndDlg::DestroyWindow()
 {
-	// TODO: ÔÚ´ËÌí¼Ó×¨ÓÃ´úÂëºÍ/»òµ÷ÓÃ»ùÀà
+	// TODO: åœ¨æ­¤æ·»åŠ ä¸“ç”¨ä»£ç å’Œ/æˆ–è°ƒç”¨åŸºç±»
 	m_nid.cbSize = sizeof(NOTIFYICONDATA);
 	m_nid.hWnd = m_hWnd;
 	m_nid.uID = IDR_MAINFRAME;
@@ -348,7 +372,7 @@ BOOL CAutoCloseWndDlg::DestroyWindow()
 
 void CAutoCloseWndDlg::OnClose()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÏûÏ¢´¦Àí³ÌĞò´úÂëºÍ/»òµ÷ÓÃÄ¬ÈÏÖµ
+	// TODO: åœ¨æ­¤æ·»åŠ æ¶ˆæ¯å¤„ç†ç¨‹åºä»£ç å’Œ/æˆ–è°ƒç”¨é»˜è®¤å€¼
 	
 	CDialog::OnClose();
 }
@@ -357,48 +381,48 @@ void CAutoCloseWndDlg::OnClose()
 
 void CAutoCloseWndDlg::OnTimer(UINT_PTR nIDEvent)
 {
-	// TODO: ÔÚ´ËÌí¼ÓÏûÏ¢´¦Àí³ÌĞò´úÂëºÍ/»òµ÷ÓÃÄ¬ÈÏÖµ
+	// TODO: åœ¨æ­¤æ·»åŠ æ¶ˆæ¯å¤„ç†ç¨‹åºä»£ç å’Œ/æˆ–è°ƒç”¨é»˜è®¤å€¼
 
 	CDialog::OnTimer(nIDEvent);
 }
 
-//¿ª»úÆô¶¯
+//å¼€æœºå¯åŠ¨
 void CAutoCloseWndDlg::AddStartupRun()
 {
 	HKEY   hKey; 
 	char pFileName[MAX_PATH] = {0}; 
-	//µÃµ½³ÌĞò×ÔÉíµÄÈ«Â·¾¶ 
+	//å¾—åˆ°ç¨‹åºè‡ªèº«çš„å…¨è·¯å¾„ 
 	DWORD dwRet = GetModuleFileName(NULL, pFileName, MAX_PATH);
 
 	//CString strWriteToReg;
-	//strWriteToReg.Format("\"%s\"", pFileName);//¼ÓÉÏË«ÒıºÅ£¬½â¾öÂ·¾¶ÖĞÓĞ¿Õ¸ñµÄÎÊÌâ¡£
+	//strWriteToReg.Format("\"%s\"", pFileName);//åŠ ä¸ŠåŒå¼•å·ï¼Œè§£å†³è·¯å¾„ä¸­æœ‰ç©ºæ ¼çš„é—®é¢˜ã€‚
 
-	//ÕÒµ½ÏµÍ³µÄÆô¶¯Ïî 
+	//æ‰¾åˆ°ç³»ç»Ÿçš„å¯åŠ¨é¡¹ 
 	LPCTSTR lpRun = _T("Software\\Microsoft\\Windows\\CurrentVersion\\Run"); 
-	//´ò¿ªÆô¶¯ÏîKey 
+	//æ‰“å¼€å¯åŠ¨é¡¹Key 
 	long lRet = RegOpenKeyEx(HKEY_LOCAL_MACHINE, lpRun, 0, KEY_WRITE, &hKey); 
 	if(lRet== ERROR_SUCCESS)
 	{
-		//Ìí¼Ó×¢²á
+		//æ·»åŠ æ³¨å†Œ
 		lRet = RegSetValueEx(hKey, APP_NAME, 0,REG_SZ,(const BYTE*)(LPCSTR)pFileName, MAX_PATH);
 		RegCloseKey(hKey); 
 	}
 }
 
-//È¡Ïû¿ª»úÆô¶¯
+//å–æ¶ˆå¼€æœºå¯åŠ¨
 void CAutoCloseWndDlg::DeleteStartupRun()
 {
 	HKEY   hKey;
 	char pFileName[MAX_PATH] = {0}; 
-	//µÃµ½³ÌĞò×ÔÉíµÄÈ«Â·¾¶ 
+	//å¾—åˆ°ç¨‹åºè‡ªèº«çš„å…¨è·¯å¾„ 
 	DWORD dwRet = GetModuleFileNameW(NULL, (LPWCH)pFileName, MAX_PATH); 
-	//ÕÒµ½ÏµÍ³µÄÆô¶¯Ïî 
+	//æ‰¾åˆ°ç³»ç»Ÿçš„å¯åŠ¨é¡¹ 
 	LPCTSTR lpRun = _T("Software\\Microsoft\\Windows\\CurrentVersion\\Run"); 
-	//´ò¿ªÆô¶¯ÏîKey 
+	//æ‰“å¼€å¯åŠ¨é¡¹Key 
 	long lRet = RegOpenKeyEx(HKEY_LOCAL_MACHINE, lpRun, 0, KEY_WRITE, &hKey); 
 	if(lRet== ERROR_SUCCESS)
 	{
-		//É¾³ı×¢²á
+		//åˆ é™¤æ³¨å†Œ
 		RegDeleteValue(hKey,_T(APP_NAME));
 		RegCloseKey(hKey);
 	}
@@ -412,13 +436,13 @@ void CAutoCloseWndDlg::OnBnClickedAutorun()
 		this->DeleteStartupRun();
 
 	g_iniConfig.SetValueI("UserInfo", "AutoRun", nChecked);
-	g_iniConfig.WriteFile();//todo: ±£Áô×¢ÊÍ
+	g_iniConfig.WriteFile();//todo: ä¿ç•™æ³¨é‡Š
 }
 
 void CAutoCloseWndDlg::OnBnClickedRunMin()
 {
 	g_iniConfig.SetValueI("UserInfo", "RunMin", m_chkRunMin.GetCheck());
-	g_iniConfig.WriteFile();//todo: ±£Áô×¢ÊÍ
+	g_iniConfig.WriteFile();//todo: ä¿ç•™æ³¨é‡Š
 }
 
 void CAutoCloseWndDlg::OnStnClickedHello()
